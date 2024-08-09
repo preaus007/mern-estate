@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import userRouter from "./routes/user.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import dotenv from "dotenv";
@@ -7,6 +8,19 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
+
+// CORS options to allow only specific origins
+// const corsOptions = {
+//   origin: 'https://example.com', // Replace with your allowed origin
+//   methods: 'GET,POST', // Restrict allowed HTTP methods
+//   allowedHeaders: 'Content-Type,Authorization', // Allow specific headers
+// };
+
+// Enable CORS with specific options
+// app.use(cors(corsOptions));
+
+// Enable CORS for all routes
+app.use(cors());
 
 mongoose
   .connect(process.env.MONGO_DB)
