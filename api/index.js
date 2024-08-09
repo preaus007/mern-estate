@@ -23,3 +23,25 @@ app.listen(3000, () => {
 
 app.use("/api/routes", userRouter);
 app.use("/api/auth", authRouter);
+app.use((err, req, res, next) => {
+  // Ensure that the error is an instance of Error
+  if (!(err instanceof Error)) {
+    err = new Error(err);
+  }
+
+  // Set status code and message
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+
+  // Log the error (for debugging purposes)
+  // if (process.env.NODE_ENV !== "production") {
+  //   console.error(err);
+  // }
+
+  // Send the error response
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
+});
